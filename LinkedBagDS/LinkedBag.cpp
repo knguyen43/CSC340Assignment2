@@ -9,6 +9,7 @@
 #include <cstddef>
 
 
+
 // Assignment 2 functions -------------------------------------------
 // TO DO: implement the two functions here
 
@@ -179,4 +180,63 @@ Node<ItemType>* LinkedBag<ItemType>::getPointerTo(const ItemType& anEntry) const
 	return curPtr;
 } // end getPointerTo
 
+template<class ItemType>
+bool appendK(const ItemType& newEntry, const int& k){
+	//Create newNode
+	Node<ItemType>* nextNodePtr = new Node<ItemType>();	
+	
+
+	//Case 1: itemCount = 0;
+	//	headPtr --> Node;
+	//	return true;
+	if (itemCount = 0 || k <= 1){
+		nextNodePtr->setItem(newEntry);
+		nextNodePtr->setNext(headPtr); //head pointer points to new node
+		headPtr = nextNodePtr;
+		itemCount++;
+		return true;
+	}else (itemCount > k > 0) {
+		for(int i = 0; i < k-1; i++){
+			curPtr = curPtr->getNext();
+		}
+		nextNodePtr->setNext(curPtr->getNext());
+		curPtr->setNext(nextNodePtr);
+		itemCount++;
+		return true;
+	}else (k > itemCount){
+		for(int i = 0; i < itemCount; i++){
+			curPtr = curPtr->getNext();
+		}
+		curPtr->setNext(nextNodePtr);
+		itemCount++;
+		return true;
+	}
+	return false;
+	//Case 2: itemCount > K > 0; 
+	//	Find Kth - 1 element ; i = k -1; 
+	// 	set newNode --> getNext()
+	//	set curPtr --> newNode;
+
+	//Case 3: k > itemCount
+	//	iterate to last element in list
+	//	for (int i = 0; i = itemCount; i++)
+	//	curPtr --> newNode
+
+	//Case 4: Append at element 1 
+	//	set new node to point to chain
+	//	set head to point to new node
+}
+
+
+template<class ItemType>
+Node<ItemType>* findKthItem(const int& indexK)  {
+	//if K > greater than item count, curPtr = nullPtr, return curPtr
+	//other wise, return pointer to Kth item --> 
+	//iterate through by using for loop, if i<k --> curPtr = curPtr->getNext(); i++
+	//when i=k, return curPtr
+
+	// if itemCount=0, curPtr = nullPtr, return curPtr
+
+	
+}
 
