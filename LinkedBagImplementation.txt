@@ -1,0 +1,41 @@
+# LinkedBag Implementation Notes
+
+## Implementation of Required Functions
+
+The LinkedBag class has been updated with two important functions:
+
+1. `bool appendK(const ItemType& newEntry, const int& k)`
+   - Adds a new item at the kth position in the linked list
+   - If k <= 1, adds to the beginning of the list
+   - If k is within range, adds at the specified position
+   - If k > size of the bag, adds to the end
+   - Returns true to indicate successful addition
+
+2. `Node<ItemType>* findKthItem(const int& k) const`
+   - Returns a pointer to the kth node in the linked list
+   - Returns nullptr if k is out of range (k <= 0 or k > itemCount)
+   - Uses 1-based indexing (first item is at position 1)
+
+## Code Structure Notes
+
+The original LinkedBag.cpp file contained duplicate implementations with syntax errors:
+
+1. The correct implementations are at the top of the file (lines 14-63)
+2. Problematic duplicate implementations were at the bottom of the file (lines 232-292)
+
+We resolved this by:
+- Keeping the correct implementations
+- Replacing the problematic code with comments
+- This allows the code to compile and run correctly
+
+For a cleaner codebase, everything after the `getPointerTo` implementation (around line 231) could be completely removed since it contains only commented-out duplicate code that isn't used.
+
+## Assignment Usage
+
+These functions are used in the Vendor class to:
+- Store products in the LinkedBag
+- Retrieve specific products by position
+- Display specific products
+- Modify or delete products at specific positions
+
+This satisfies the assignment requirements of implementing and using these functions in our Amazon340 application.

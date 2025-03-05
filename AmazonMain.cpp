@@ -1,9 +1,8 @@
 #include <iostream> 
 #include <string>
-
-// TO DO: #include any other libraries you need
+#include <limits>  // For input handling
 #include "Amazon340.h"
-
+#include "Product.h"
 
 using namespace std;
 
@@ -14,101 +13,248 @@ using namespace std;
  * @param vendor object to interact with
  * 
  * */
-void displayVendorMenu(Vendor& vendor){
-	int vendorChoice = 0;
-	do {
-		cout << "\n Hi, "<< vendor.getUsername() <<", what would you like to do:\n"
-		<< "1. Display Profile\n"
-		<< "2. Modify Password\n"
-		<< "3. Create Product\n"
-		<< "4. Display All Products\n"
-		<< "5. Display Kth Product\n"
-		<< "6. Modify Product\n"
-		<< "7. Sell Product\n"
-		<< "8. Delete Product\n"
-		<< "0. Logout\n"
-		<< "Choice: ";
-		cin >> vendorChoice;
+void displayVendorMenu(Vendor& vendor) {
+    int vendorChoice = 0;
+    do {
+        cout << "\n Hi, "<< vendor.getUsername() <<", what would you like to do:\n"
+        << "1. Display Profile\n"
+        << "2. Modify Password\n"
+        << "3. Create Product\n"
+        << "4. Display All Products\n"
+        << "5. Display Kth Product\n"
+        << "6. Modify Product\n"
+        << "7. Sell Product\n"
+        << "8. Delete Product\n"
+        << "0. Logout\n"
+        << "Choice: ";
+        cin >> vendorChoice;
 
-		switch (vendorChoice) {
-			case 1:{
-				// TO DO: display vendor's profile information
-				//      : e.g. vendor.displayProfile();
-				break;
-			}
-			case 2: {
-				// TO DO: ask for new password and update vendor's password
-				break;
-			}
-			case 3: {
-				// TO DO: ask vendor to choose product type, then ask them to input product details.
-				// Create the product and add it to the vendor's products
-				break;
-			}
-			case 4:{
-				// TO DO: display all vendor's products
-				//        You may re-use code from class demo
-				break;
-			}
-			case 5: {
-				// TO DO: ask the vendor for a value k
-				// Find the Kth product, if k > Linked Bag size, 
-				//    return an error message that includes the size of the Linked Bag
-				break;
-			}
-			case 6: {
-				// TO DO: ask the vendor for the index of the product they want to modify.
-				// Find the product, then prompt them for the new name and description.
-				// Modify the product accordingly. 
-				// If index > Linked Bag size, 
-				//    return an error message that includes the size of the Linked Bag
-				break;
-			}
-			case 7: {
-				// TO DO: ask the vendor for the index of the product they want to sell 
-				// Find the product, then sell the product. 
-				// If index > LinkedBag size, 
-				//    return an error message that includes the size of the Linked Bag
-				break;
-			}
-			case 8:{
-				// TO DO: ask the vendor for the index of the product they want to delete 
-				// Find the product, then remove it from the list. 
-				// If index > LinkedBag size, 
-				//    return an error message that includes the size of the Linked Bag
-				break;
-			}
-			case 0: {
-				cout << "Logging you out." << endl;
-				break;
-			}
-			default:
-				cout << "Invalid choice. Please try again." << endl;
-		}
+        // Handle invalid input
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Please enter a number." << endl;
+            continue;
+        }
 
-	} while (vendorChoice != 0);
+        switch (vendorChoice) {
+            case 1: {
+                // Display vendor's profile information
+                vendor.displayProfile();
+                break;
+            }
+            case 2: {
+                // Modify vendor's password
+                string newPassword;
+                cout << "Enter new password: ";
+                cin >> newPassword;
+                
+                if (vendor.updatePassword(newPassword)) {
+                    cout << "Password updated successfully!" << endl;
+                }
+                break;
+            }
+            case 3: {
+                // Create a new product
+                int productType;
+                string name, description;
+                
+                cout << "What type of product would you like to create?" << endl;
+                cout << "1. Media" << endl;
+                cout << "2. Goods" << endl;
+                cout << "Enter choice: ";
+                cin >> productType;
+                
+                // Handle invalid input
+                if (cin.fail()) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid input. Please try again." << endl;
+                    break;
+                }
+                
+                cin.ignore();
+                cout << "Enter product name: ";
+                getline(cin, name);
+                
+                cout << "Enter product description: ";
+                getline(cin, description);
+                
+                if (productType == 1) {
+                    // Media product
+                    string type, targetAudience;
+                    
+                    cout << "Enter media type (e.g., book, movie, music): ";
+                    getline(cin, type);
+                    
+                    cout << "Enter target audience: ";
+                    getline(cin, targetAudience);
+                    
+                    if (vendor.createMediaProduct(name, description, type, targetAudience)) {
+                        cout << "Media product created successfully!" << endl;
+                    } else {
+                        cout << "Failed to create media product." << endl;
+                    }
+                    
+                } else if (productType == 2) {
+                    // Goods product
+                    string expirationDate;
+                    int quantity;
+                    
+                    cout << "Enter expiration date: ";
+                    getline(cin, expirationDate);
+                    
+                    cout << "Enter quantity: ";
+                    cin >> quantity;
+                    
+                    // Handle invalid input
+                    if (cin.fail()) {
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        cout << "Invalid quantity. Using default of 0." << endl;
+                        quantity = 0;
+                    }
+                    
+                    if (vendor.createGoodsProduct(name, description, expirationDate, quantity)) {
+                        cout << "Goods product created successfully!" << endl;
+                    } else {
+                        cout << "Failed to create goods product." << endl;
+                    }
+                    
+                } else {
+                    cout << "Invalid product type." << endl;
+                }
+                break;
+            }
+            case 4: {
+                // Display all vendor's products
+                vendor.displayAllProducts();
+                break;
+            }
+            case 5: {
+                // Display kth product
+                int k;
+                cout << "Enter the product index (k): ";
+                cin >> k;
+                
+                // Handle invalid input
+                if (cin.fail()) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid input. Please enter a number." << endl;
+                    break;
+                }
+                
+                vendor.getKthProduct(k);
+                break;
+            }
+            case 6: {
+                // Modify a product
+                int index;
+                string newName, newDescription;
+                
+                cout << "Enter the product index to modify: ";
+                cin >> index;
+                
+                // Handle invalid input
+                if (cin.fail()) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid input. Please enter a number." << endl;
+                    break;
+                }
+                
+                cin.ignore();
+                cout << "Enter new product name: ";
+                getline(cin, newName);
+                
+                cout << "Enter new product description: ";
+                getline(cin, newDescription);
+                
+                vendor.modifyProduct(index, newName, newDescription);
+                break;
+            }
+            case 7: {
+                // Sell a product
+                int index;
+                cout << "Enter the product index to sell: ";
+                cin >> index;
+                
+                // Handle invalid input
+                if (cin.fail()) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid input. Please enter a number." << endl;
+                    break;
+                }
+                
+                vendor.sellProduct(index);
+                break;
+            }
+            case 8: {
+                // Delete a product
+                int index;
+                cout << "Enter the product index to delete: ";
+                cin >> index;
+                
+                // Handle invalid input
+                if (cin.fail()) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid input. Please enter a number." << endl;
+                    break;
+                }
+                
+                vendor.deleteProduct(index);
+                break;
+            }
+            case 0: {
+                cout << "Logging you out." << endl;
+                break;
+            }
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+
+    } while (vendorChoice != 0);
 }
 
 
-int main(){
-	// Instantiating the program using the default constructor
-	// With this implementation, the application will only have one vendor
-	Amazon340 amazon340; 
+int main() {
+    // Instantiating the program using the default constructor
+    Amazon340 amazon340; 
 
-	cout << "\n Welcome to Amazon340:" << endl;
-	// TO DO: Ask the vendor to enter their information 
-	//        Instantiate a new Vendor object
+    cout << "\n Welcome to Amazon340:" << endl;
+    
+    // Ask the vendor to enter their information
+    string username, email, password, bio, profilePicture;
+    
+    cout << "Let's create your vendor profile:" << endl;
+    cout << "Enter username: ";
+    cin >> username;
+    
+    cout << "Enter email: ";
+    cin >> email;
+    
+    cout << "Enter password: ";
+    cin >> password;
+    
+    cin.ignore(); // Clear input buffer
+    
+    cout << "Enter short bio: ";
+    getline(cin, bio);
+    
+    cout << "Enter profile picture path: ";
+    getline(cin, profilePicture);
+    
+    // Call amazon340 createVendor function with the collected information
+    amazon340.createVendor(username, email, password, bio, profilePicture);
 
+    // Retrieve the vendor 
+    Vendor currentVendor = amazon340.getVendor();
 
-	// call amazon340 createVendor function 
-	// replace /*...*/ with the right parameters
-	amazon340.createVendor(/*...*/);
-
-	// Retrieve the vendor 
-	Vendor currentVendor = amazon340.getVendor();
-
-	// Display the main menu
-	displayVendorMenu(currentVendor);
-				
-	return 0;
+    // Display the main menu
+    displayVendorMenu(currentVendor);
+                
+    return 0;
 }
