@@ -1,0 +1,65 @@
+# Edge Cases Fixes for Amazon340 Assignment
+
+## Summary of Improvements
+
+The following improvements have been made to address edge cases and make the application more robust:
+
+### 1. LinkedBag Operations - Empty Bag Handling
+- Added checks in all methods to handle empty bag cases
+- Added specific error messages for empty bag operations
+- Improved handling of empty vectors returned from `toVector()`
+
+### 2. Index Validation
+- Added validation for index <= 0 (invalid negative or zero indices)
+- Added validation for index > size (exceeding the bag's size)
+- Added specific error messages for different index validation failures
+- Improved feedback for index errors to show available item count
+
+### 3. Product Type Handling
+- Added dynamic type checking in `displayAllProducts()` to show product types
+- Enhanced polymorphic behavior of Media and Goods products
+- Updated Media's sell method to generate better random access codes
+- Improved Goods' sell method with better quantity tracking and notifications
+
+### 4. Input Validation
+- Added validation for empty usernames/emails in profile creation
+- Added minimum length check for passwords
+- Improved handling of input failures throughout the application
+- Added validation for product name during modification
+
+### 5. Memory Management
+- Enhanced product deletion to properly free memory
+- Improved logic to prevent memory leaks when removing products
+- Added confirmation messages before deletion
+
+### 6. User Feedback
+- Added more detailed feedback messages for all operations
+- Added warnings for low inventory in Goods products
+- Added count reporting for sold items
+- Enhanced display methods to show more context
+
+## Test Scenarios
+
+These improvements address the following important edge cases:
+
+1. **Empty Bag Operations**
+   - Trying to display/modify/sell/delete a product when no products exist
+   - Trying to get a product by index when no products exist
+
+2. **Invalid Index Access**
+   - Trying to access products with index 0 (invalid, as indices start at 1)
+   - Trying to access products with index > size
+   - Trying to access products with negative indices
+
+3. **Goods Quantity Management**
+   - Selling a Goods product with quantity 1 (last item warning)
+   - Trying to sell a Goods product that's already out of stock
+   - Special notifications for low inventory
+
+4. **Input Validation**
+   - Handling empty input strings
+   - Handling numeric input failures
+   - Password length validation
+   - Empty product name prevention
+
+All these improvements ensure the application is robust and user-friendly while adhering to the assignment requirements.
