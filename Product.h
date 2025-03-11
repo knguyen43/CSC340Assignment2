@@ -4,18 +4,18 @@
 #include <string>
 #include <iostream>
 
-// Base Product class
+// Base Product class (Abstract) - aligned with UML
 class Product {
 protected:
     std::string name;
     std::string description;
-    float rating;
+    int rating;
     int soldCount;
 
 public:
     // Constructors
     Product();
-    Product(const std::string& name, const std::string& description, float rating = 0.0f, int soldCount = 0);
+    Product(const std::string& name, const std::string& description, int rating = 0, int soldCount = 0);
     
     // Destructor
     virtual ~Product();
@@ -23,26 +23,25 @@ public:
     // Getters
     std::string getName() const;
     std::string getDescription() const;
-    float getRating() const;
+    int getRating() const;
     int getSoldCount() const;
     
     // Setters
     void setName(const std::string& name);
     void setDescription(const std::string& description);
-    void setRating(float rating);
+    void setRating(int rating);
     void setSoldCount(int soldCount);
     
-    // Display product information
-    virtual void displayInfo() const;
-    
-    // Polymorphic sell method
-    virtual bool sell() = 0;  // Pure virtual method
+    // Methods from UML
+    virtual void display() const;  // Display product information
+    virtual bool modify();         // Modify product details
+    virtual bool sell(int quantity) = 0;  // Pure virtual method for selling
     
     // Operator overloading as specified
     bool operator==(const Product& otherProduct) const;
 };
 
-// Media class (inherits from Product)
+// Media class (inherits from Product) - aligned with UML
 class Media : public Product {
 private:
     std::string type;  // e.g., book, music, movie
@@ -53,7 +52,7 @@ public:
     Media();
     Media(const std::string& name, const std::string& description, 
           const std::string& type, const std::string& targetAudience,
-          float rating = 0.0f, int soldCount = 0);
+          int rating = 0, int soldCount = 0);
     
     // Getters
     std::string getType() const;
@@ -63,25 +62,24 @@ public:
     void setType(const std::string& type);
     void setTargetAudience(const std::string& targetAudience);
     
-    // Override display method
-    void displayInfo() const override;
-    
-    // Override sell method
-    bool sell() override;
+    // Override methods from Product
+    void display() const override;
+    bool modify() override;
+    bool sell(int quantity) override;
 };
 
-// Goods class (inherits from Product)
-class Goods : public Product {
+// Good class (inherits from Product) - aligned with UML (renamed from Goods to Good)
+class Good : public Product {
 private:
     std::string expirationDate;
     int quantity;
 
 public:
     // Constructors
-    Goods();
-    Goods(const std::string& name, const std::string& description, 
-          const std::string& expirationDate, int quantity,
-          float rating = 0.0f, int soldCount = 0);
+    Good();
+    Good(const std::string& name, const std::string& description, 
+         const std::string& expirationDate, int quantity,
+         int rating = 0, int soldCount = 0);
     
     // Getters
     std::string getExpirationDate() const;
@@ -91,11 +89,10 @@ public:
     void setExpirationDate(const std::string& expirationDate);
     void setQuantity(int quantity);
     
-    // Override display method
-    void displayInfo() const override;
-    
-    // Override sell method
-    bool sell() override;
+    // Override methods from Product
+    void display() const override;
+    bool modify() override;
+    bool sell(int quantity) override;
 };
 
 #endif // PRODUCT_H

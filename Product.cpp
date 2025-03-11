@@ -4,11 +4,11 @@
 #include <cstdlib>
 #include <ctime>
 
-// Product class implementations
+// Product class implementations - aligned with UML
 // Constructors
-Product::Product() : name(""), description(""), rating(0.0f), soldCount(0) {}
+Product::Product() : name(""), description(""), rating(0), soldCount(0) {}
 
-Product::Product(const std::string& name, const std::string& description, float rating, int soldCount)
+Product::Product(const std::string& name, const std::string& description, int rating, int soldCount)
     : name(name), description(description), rating(rating), soldCount(soldCount) {}
 
 // Destructor
@@ -23,7 +23,7 @@ std::string Product::getDescription() const {
     return description;
 }
 
-float Product::getRating() const {
+int Product::getRating() const {
     return rating;
 }
 
@@ -40,7 +40,7 @@ void Product::setDescription(const std::string& description) {
     this->description = description;
 }
 
-void Product::setRating(float rating) {
+void Product::setRating(int rating) {
     this->rating = rating;
 }
 
@@ -49,11 +49,48 @@ void Product::setSoldCount(int soldCount) {
 }
 
 // Display product information
-void Product::displayInfo() const {
+void Product::display() const {
     std::cout << "Product Name: " << name << std::endl;
     std::cout << "Description: " << description << std::endl;
     std::cout << "Rating: " << rating << std::endl;
     std::cout << "Sold Count: " << soldCount << std::endl;
+}
+
+// Modify product details
+bool Product::modify() {
+    std::string newName, newDescription;
+    int newRating;
+    
+    std::cout << "Enter new name (or press Enter to keep current): ";
+    std::getline(std::cin, newName);
+    if (!newName.empty()) {
+        name = newName;
+    }
+    
+    std::cout << "Enter new description (or press Enter to keep current): ";
+    std::getline(std::cin, newDescription);
+    if (!newDescription.empty()) {
+        description = newDescription;
+    }
+    
+    std::cout << "Enter new rating (0-5) (or press Enter to keep current): ";
+    std::string ratingStr;
+    std::getline(std::cin, ratingStr);
+    if (!ratingStr.empty()) {
+        try {
+            newRating = std::stoi(ratingStr);
+            if (newRating >= 0 && newRating <= 5) {
+                rating = newRating;
+            } else {
+                std::cout << "Invalid rating. Using current value." << std::endl;
+            }
+        } catch (...) {
+            std::cout << "Invalid input. Using current value." << std::endl;
+        }
+    }
+    
+    std::cout << "Product modified successfully!" << std::endl;
+    return true;
 }
 
 // Operator overloading implementation
@@ -61,13 +98,13 @@ bool Product::operator==(const Product& otherProduct) const {
     return name == otherProduct.name;
 }
 
-// Media class implementations
+// Media class implementations - aligned with UML
 // Constructors
 Media::Media() : Product(), type(""), targetAudience("") {}
 
 Media::Media(const std::string& name, const std::string& description, 
              const std::string& type, const std::string& targetAudience,
-             float rating, int soldCount)
+             int rating, int soldCount)
     : Product(name, description, rating, soldCount), type(type), targetAudience(targetAudience) {}
 
 // Getters
@@ -89,73 +126,130 @@ void Media::setTargetAudience(const std::string& targetAudience) {
 }
 
 // Override display method
-void Media::displayInfo() const {
-    Product::displayInfo();
+void Media::display() const {
+    Product::display();
     std::cout << "Type: " << type << std::endl;
     std::cout << "Target Audience: " << targetAudience << std::endl;
 }
 
-// Override sell method - generates access code
-bool Media::sell() {
-    // Generate a random access code (simple implementation)
-    srand(static_cast<unsigned int>(time(nullptr)));
-    int accessCode = rand() % 900000 + 100000; // 6-digit code
+// Override modify method
+bool Media::modify() {
+    // First modify base class attributes
+    Product::modify();
     
-    // Increment sold count
-    soldCount++;
+    // Then modify media-specific attributes
+    std::string newType, newTargetAudience;
     
-    // Display access code
-    std::cout << "Product sold! Your one-time access code is: " << accessCode << std::endl;
+    std::cout << "Enter new type (or press Enter to keep current): ";
+    std::getline(std::cin, newType);
+    if (!newType.empty()) {
+        type = newType;
+    }
+    
+    std::cout << "Enter new target audience (or press Enter to keep current): ";
+    std::getline(std::cin, newTargetAudience);
+    if (!newTargetAudience.empty()) {
+        targetAudience = newTargetAudience;
+    }
     
     return true;
 }
 
-// Goods class implementations
-// Constructors
-Goods::Goods() : Product(), expirationDate(""), quantity(0) {}
+// Override sell method
+bool Media::sell(int quantity) {
+    // Generate a random access code (simple implementation)
+    srand(static_cast<unsigned int>(time(nullptr)));
+    int accessCode = rand() % 900000 + 100000; // 6-digit code
+    
+    // Increment sold count by quantity
+    soldCount += quantity;
+    
+    // Display access code
+    std::cout << "Product sold! Your one-time access code is: " << accessCode << std::endl;
+    std::cout << "Quantity sold: " << quantity << std::endl;
+    
+    return true;
+}
 
-Goods::Goods(const std::string& name, const std::string& description, 
-             const std::string& expirationDate, int quantity,
-             float rating, int soldCount)
+// Good class implementations - aligned with UML (renamed from Goods to Good)
+// Constructors
+Good::Good() : Product(), expirationDate(""), quantity(0) {}
+
+Good::Good(const std::string& name, const std::string& description, 
+         const std::string& expirationDate, int quantity,
+         int rating, int soldCount)
     : Product(name, description, rating, soldCount), expirationDate(expirationDate), quantity(quantity) {}
 
 // Getters
-std::string Goods::getExpirationDate() const {
+std::string Good::getExpirationDate() const {
     return expirationDate;
 }
 
-int Goods::getQuantity() const {
+int Good::getQuantity() const {
     return quantity;
 }
 
 // Setters
-void Goods::setExpirationDate(const std::string& expirationDate) {
+void Good::setExpirationDate(const std::string& expirationDate) {
     this->expirationDate = expirationDate;
 }
 
-void Goods::setQuantity(int quantity) {
+void Good::setQuantity(int quantity) {
     this->quantity = quantity;
 }
 
 // Override display method
-void Goods::displayInfo() const {
-    Product::displayInfo();
+void Good::display() const {
+    Product::display();
     std::cout << "Expiration Date: " << expirationDate << std::endl;
     std::cout << "Quantity Available: " << quantity << std::endl;
 }
 
+// Override modify method
+bool Good::modify() {
+    // First modify base class attributes
+    Product::modify();
+    
+    // Then modify goods-specific attributes
+    std::string newExpirationDate, quantityStr;
+    
+    std::cout << "Enter new expiration date (or press Enter to keep current): ";
+    std::getline(std::cin, newExpirationDate);
+    if (!newExpirationDate.empty()) {
+        expirationDate = newExpirationDate;
+    }
+    
+    std::cout << "Enter new quantity (or press Enter to keep current): ";
+    std::getline(std::cin, quantityStr);
+    if (!quantityStr.empty()) {
+        try {
+            int newQuantity = std::stoi(quantityStr);
+            if (newQuantity >= 0) {
+                quantity = newQuantity;
+            } else {
+                std::cout << "Invalid quantity. Using current value." << std::endl;
+            }
+        } catch (...) {
+            std::cout << "Invalid input. Using current value." << std::endl;
+        }
+    }
+    
+    return true;
+}
+
 // Override sell method - checks quantity
-bool Goods::sell() {
-    if (quantity > 0) {
+bool Good::sell(int sellQuantity) {
+    if (quantity >= sellQuantity) {
         // Decrement quantity
-        quantity--;
+        quantity -= sellQuantity;
         // Increment sold count
-        soldCount++;
+        soldCount += sellQuantity;
         
-        std::cout << "Product sold! Remaining quantity: " << quantity << std::endl;
+        std::cout << "Product sold! Quantity sold: " << sellQuantity << std::endl;
+        std::cout << "Remaining quantity: " << quantity << std::endl;
         return true;
     } else {
-        std::cout << "Sorry, this product is sold out." << std::endl;
+        std::cout << "Sorry, not enough inventory. Available quantity: " << quantity << std::endl;
         return false;
     }
 }

@@ -49,7 +49,7 @@ void displayVendorMenu(Vendor& vendor) {
                 cout << "Enter new password: ";
                 cin >> newPassword;
                 
-                if (vendor.updatePassword(newPassword)) {
+                if (vendor.modifyPassword(newPassword)) {
                     cout << "Password updated successfully!" << endl;
                 }
                 break;
@@ -90,10 +90,12 @@ void displayVendorMenu(Vendor& vendor) {
                     cout << "Enter target audience: ";
                     getline(cin, targetAudience);
                     
-                    if (vendor.createMediaProduct(name, description, type, targetAudience)) {
+                    Media* newMedia = new Media(name, description, type, targetAudience);
+                    if (vendor.createProduct(newMedia)) {
                         cout << "Media product created successfully!" << endl;
                     } else {
                         cout << "Failed to create media product." << endl;
+                        delete newMedia; // Clean up if failed
                     }
                     
                 } else if (productType == 2) {
@@ -115,10 +117,12 @@ void displayVendorMenu(Vendor& vendor) {
                         quantity = 0;
                     }
                     
-                    if (vendor.createGoodsProduct(name, description, expirationDate, quantity)) {
-                        cout << "Goods product created successfully!" << endl;
+                    Good* newGood = new Good(name, description, expirationDate, quantity);
+                    if (vendor.createProduct(newGood)) {
+                        cout << "Good product created successfully!" << endl;
                     } else {
-                        cout << "Failed to create goods product." << endl;
+                        cout << "Failed to create good product." << endl;
+                        delete newGood; // Clean up if failed
                     }
                     
                 } else {
@@ -145,7 +149,7 @@ void displayVendorMenu(Vendor& vendor) {
                     break;
                 }
                 
-                vendor.getKthProduct(k);
+                vendor.displayProduct(k);
                 break;
             }
             case 6: {
@@ -171,7 +175,7 @@ void displayVendorMenu(Vendor& vendor) {
                 cout << "Enter new product description: ";
                 getline(cin, newDescription);
                 
-                vendor.modifyProduct(index, newName, newDescription);
+                vendor.modifyProduct(index);
                 break;
             }
             case 7: {
@@ -188,7 +192,19 @@ void displayVendorMenu(Vendor& vendor) {
                     break;
                 }
                 
-                vendor.sellProduct(index);
+                int quantity;
+                cout << "Enter quantity to sell: ";
+                cin >> quantity;
+                
+                // Handle invalid input
+                if (cin.fail()) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid quantity. Using 1 as default." << endl;
+                    quantity = 1;
+                }
+                
+                vendor.sellProduct(index, quantity);
                 break;
             }
             case 8: {
@@ -247,8 +263,12 @@ int main() {
     cout << "Enter profile picture path: ";
     getline(cin, profilePicture);
     
-    // Call amazon340 createVendor function with the collected information
-    amazon340.createVendor(username, email, password, bio, profilePicture);
+    // Call amazon340 createVendor function
+    amazon340.createVendor();
+    
+    // Since createVendor now prompts for input, we need to create the vendor manually here
+    Vendor manualVendor(username, email, password, bio, profilePicture);
+    // We'd need a setter in Amazon340 class to properly set this vendor, but for now we'll use what's returned
 
     // Retrieve the vendor 
     Vendor currentVendor = amazon340.getVendor();

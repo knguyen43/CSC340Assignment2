@@ -38,27 +38,20 @@ public:
     void setBio(const std::string& bio);
     void setProfilePicture(const std::string& profilePicture);
     
-    // Profile management
+    // Profile management - aligned with UML
     void displayProfile() const;
-    bool updatePassword(const std::string& newPassword);
+    bool modifyPassword(const std::string& newPassword);
     
-    // Product management
-    bool createMediaProduct(const std::string& name, const std::string& description,
-                          const std::string& type, const std::string& targetAudience);
-    
-    bool createGoodsProduct(const std::string& name, const std::string& description,
-                          const std::string& expirationDate, int quantity);
-    
+    // Product management - aligned with UML
+    bool createProduct(Product* product);
+    void displayProduct(int k) const;
     void displayAllProducts() const;
+    bool modifyProduct(int k);
+    bool sellProduct(int k, int quantity);
+    bool deleteProduct(int k);
     
+    // Additional helpers
     Product* getKthProduct(int k) const;
-    
-    bool modifyProduct(int index, const std::string& newName, const std::string& newDescription);
-    
-    bool sellProduct(int index);
-    
-    bool deleteProduct(int index);
-    
     int getProductCount() const;
     
     // Operator overloading as specified

@@ -57,7 +57,7 @@ void Vendor::setProfilePicture(const std::string& profilePicture) {
     this->profilePicture = profilePicture;
 }
 
-// Profile management
+// Profile management - aligned with UML
 void Vendor::displayProfile() const {
     std::cout << "==== Vendor Profile ====" << std::endl;
     std::cout << "Username: " << username << std::endl;
@@ -67,23 +67,32 @@ void Vendor::displayProfile() const {
     std::cout << "Number of Products: " << products.getCurrentSize() << std::endl;
 }
 
-bool Vendor::updatePassword(const std::string& newPassword) {
+bool Vendor::modifyPassword(const std::string& newPassword) {
     password = newPassword;
     std::cout << "Password updated successfully to: " << newPassword << std::endl;
     return true;
 }
 
-// Product management
-bool Vendor::createMediaProduct(const std::string& name, const std::string& description,
-                              const std::string& type, const std::string& targetAudience) {
-    Media* newMedia = new Media(name, description, type, targetAudience);
-    return products.add(newMedia);
+// Product management - aligned with UML
+bool Vendor::createProduct(Product* product) {
+    if (product != nullptr) {
+        return products.add(product);
+    }
+    return false;
 }
 
-bool Vendor::createGoodsProduct(const std::string& name, const std::string& description,
-                              const std::string& expirationDate, int quantity) {
-    Goods* newGoods = new Goods(name, description, expirationDate, quantity);
-    return products.add(newGoods);
+void Vendor::displayProduct(int k) const {
+    if (k <= 0 || k > products.getCurrentSize()) {
+        std::cout << "Error: Invalid product index. You have " << products.getCurrentSize() << " products." << std::endl;
+        return;
+    }
+    
+    Node<Product*>* productNode = products.findKthItem(k);
+    if (productNode != nullptr) {
+        Product* product = productNode->getItem();
+        std::cout << "Product #" << k << ":" << std::endl;
+        product->display();
+    }
 }
 
 void Vendor::displayAllProducts() const {
@@ -97,7 +106,7 @@ void Vendor::displayAllProducts() const {
     std::cout << "==== Your Products ====" << std::endl;
     for (int i = 0; i < productsList.size(); i++) {
         std::cout << "Product #" << (i + 1) << ":" << std::endl;
-        productsList[i]->displayInfo();
+        productsList[i]->display();
         std::cout << "----------------------" << std::endl;
     }
 }
@@ -110,42 +119,36 @@ Product* Vendor::getKthProduct(int k) const {
     
     Node<Product*>* productNode = products.findKthItem(k);
     if (productNode != nullptr) {
-        Product* product = productNode->getItem();
-        std::cout << "Product #" << k << ":" << std::endl;
-        product->displayInfo();
-        return product;
+        return productNode->getItem();
     }
     
     return nullptr;
 }
 
-bool Vendor::modifyProduct(int index, const std::string& newName, const std::string& newDescription) {
-    Product* product = getKthProduct(index);
+bool Vendor::modifyProduct(int k) {
+    Product* product = getKthProduct(k);
     if (product != nullptr) {
-        product->setName(newName);
-        product->setDescription(newDescription);
-        std::cout << "Product modified successfully!" << std::endl;
-        return true;
+        return product->modify();
     }
     return false;
 }
 
-bool Vendor::sellProduct(int index) {
-    Product* product = getKthProduct(index);
+bool Vendor::sellProduct(int k, int quantity) {
+    Product* product = getKthProduct(k);
     if (product != nullptr) {
-        return product->sell();
+        return product->sell(quantity);
     }
     return false;
 }
 
-bool Vendor::deleteProduct(int index) {
-    if (index <= 0 || index > products.getCurrentSize()) {
+bool Vendor::deleteProduct(int k) {
+    if (k <= 0 || k > products.getCurrentSize()) {
         std::cout << "Error: Invalid product index. You have " << products.getCurrentSize() << " products." << std::endl;
         return false;
     }
     
     // Get the product to delete
-    Node<Product*>* productNode = products.findKthItem(index);
+    Node<Product*>* productNode = products.findKthItem(k);
     if (productNode != nullptr) {
         Product* product = productNode->getItem();
         // Store a temporary copy of the product for comparison
