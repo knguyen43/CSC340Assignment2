@@ -1,0 +1,35 @@
+testuser
+user@example.com
+password123
+This is a test vendor selling books and electronics.
+https://example.com/profile.jpg
+3
+1
+Book Example
+A great book for testing purposes
+book
+general audience
+4
+3
+2
+Electronics Gadget
+A cool electronic device with multiple features
+2025-12-31
+50
+4
+1
+6
+1
+Updated Book Example
+An even better book for testing purposes
+book
+readers of all ages
+1
+5
+1
+7
+1
+2
+8
+2
+0

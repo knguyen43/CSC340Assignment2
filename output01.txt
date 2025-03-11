@@ -1,0 +1,248 @@
+Welcome to Amazon340:
+Let's create your vendor profile:
+Amazon340 application started.
+Creating a new vendor...
+Enter username: testuser
+Enter email: user@example.com
+Enter password: password123
+Enter bio: This is a test vendor selling books and electronics.
+Enter profile picture URL: https://example.com/profile.jpg
+Vendor profile created successfully!
+
+Hi, testuser, what would you like to do:
+1. Display Profile
+2. Modify Password
+3. Create Product
+4. Display All Products
+5. Display Kth Product
+6. Modify Product
+7. Sell Product
+8. Delete Product
+0. Logout
+Choice: 3
+What type of product would you like to create?
+1. Media
+2. Goods
+Enter choice: 1
+Enter product name: Book Example
+Enter product description: A great book for testing purposes
+Enter media type (e.g., book, movie, music): book
+Enter target audience: general audience
+Media product created successfully!
+
+Hi, testuser, what would you like to do:
+1. Display Profile
+2. Modify Password
+3. Create Product
+4. Display All Products
+5. Display Kth Product
+6. Modify Product
+7. Sell Product
+8. Delete Product
+0. Logout
+Choice: 4
+All Products:
+Product #1:
+Name: Book Example
+Description: A great book for testing purposes
+Rating: 0
+Sold: 0
+Type: book
+Target Audience: general audience
+
+Hi, testuser, what would you like to do:
+1. Display Profile
+2. Modify Password
+3. Create Product
+4. Display All Products
+5. Display Kth Product
+6. Modify Product
+7. Sell Product
+8. Delete Product
+0. Logout
+Choice: 3
+What type of product would you like to create?
+1. Media
+2. Goods
+Enter choice: 2
+Enter product name: Electronics Gadget
+Enter product description: A cool electronic device with multiple features
+Enter expiration date: 2025-12-31
+Enter quantity: 50
+Good product created successfully!
+
+Hi, testuser, what would you like to do:
+1. Display Profile
+2. Modify Password
+3. Create Product
+4. Display All Products
+5. Display Kth Product
+6. Modify Product
+7. Sell Product
+8. Delete Product
+0. Logout
+Choice: 4
+All Products:
+Product #1:
+Name: Book Example
+Description: A great book for testing purposes
+Rating: 0
+Sold: 0
+Type: book
+Target Audience: general audience
+
+Product #2:
+Name: Electronics Gadget
+Description: A cool electronic device with multiple features
+Rating: 0
+Sold: 0
+Expiration Date: 2025-12-31
+Quantity Available: 50
+
+Hi, testuser, what would you like to do:
+1. Display Profile
+2. Modify Password
+3. Create Product
+4. Display All Products
+5. Display Kth Product
+6. Modify Product
+7. Sell Product
+8. Delete Product
+0. Logout
+Choice: 1
+==== Vendor Profile ====
+Username: testuser
+Email: user@example.com
+Bio: This is a test vendor selling books and electronics.
+Profile Picture: https://example.com/profile.jpg
+Number of Products: 2
+
+Hi, testuser, what would you like to do:
+1. Display Profile
+2. Modify Password
+3. Create Product
+4. Display All Products
+5. Display Kth Product
+6. Modify Product
+7. Sell Product
+8. Delete Product
+0. Logout
+Choice: 5
+Enter the product index (k): 1
+Product #1:
+Name: Book Example
+Description: A great book for testing purposes
+Rating: 0
+Sold: 0
+Type: book
+Target Audience: general audience
+
+Hi, testuser, what would you like to do:
+1. Display Profile
+2. Modify Password
+3. Create Product
+4. Display All Products
+5. Display Kth Product
+6. Modify Product
+7. Sell Product
+8. Delete Product
+0. Logout
+Choice: 6
+Enter the product index to modify: 1
+Current Product Details:
+Name: Book Example
+Description: A great book for testing purposes
+Rating: 0
+Sold: 0
+Type: book
+Target Audience: general audience
+
+Enter new name (or press Enter to keep current): Updated Book Example
+Enter new description (or press Enter to keep current): An even better book for testing purposes
+Enter new rating (or press Enter to keep current): 
+Enter new sold count (or press Enter to keep current): 
+Enter new type (or press Enter to keep current): book
+Enter new target audience (or press Enter to keep current): readers of all ages
+Product modified successfully!
+
+Hi, testuser, what would you like to do:
+1. Display Profile
+2. Modify Password
+3. Create Product
+4. Display All Products
+5. Display Kth Product
+6. Modify Product
+7. Sell Product
+8. Delete Product
+0. Logout
+Choice: 1
+==== Vendor Profile ====
+Username: testuser
+Email: user@example.com
+Bio: This is a test vendor selling books and electronics.
+Profile Picture: https://example.com/profile.jpg
+Number of Products: 2
+
+Hi, testuser, what would you like to do:
+1. Display Profile
+2. Modify Password
+3. Create Product
+4. Display All Products
+5. Display Kth Product
+6. Modify Product
+7. Sell Product
+8. Delete Product
+0. Logout
+Choice: 5
+Enter the product index (k): 1
+Product #1:
+Name: Updated Book Example
+Description: An even better book for testing purposes
+Rating: 0
+Sold: 0
+Type: book
+Target Audience: readers of all ages
+
+Hi, testuser, what would you like to do:
+1. Display Profile
+2. Modify Password
+3. Create Product
+4. Display All Products
+5. Display Kth Product
+6. Modify Product
+7. Sell Product
+8. Delete Product
+0. Logout
+Choice: 7
+Enter the product index to sell: 1
+Enter quantity to sell: 2
+Product sold! Your one-time access code is: 123456
+Quantity sold: 2
+
+Hi, testuser, what would you like to do:
+1. Display Profile
+2. Modify Password
+3. Create Product
+4. Display All Products
+5. Display Kth Product
+6. Modify Product
+7. Sell Product
+8. Delete Product
+0. Logout
+Choice: 8
+Enter the product index to delete: 2
+Product deleted successfully!
+
+Hi, testuser, what would you like to do:
+1. Display Profile
+2. Modify Password
+3. Create Product
+4. Display All Products
+5. Display Kth Product
+6. Modify Product
+7. Sell Product
+8. Delete Product
+0. Logout
+Choice: 0
+Logging you out.
+Amazon340 application exiting.
