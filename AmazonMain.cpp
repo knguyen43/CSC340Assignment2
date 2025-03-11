@@ -155,7 +155,6 @@ void displayVendorMenu(Vendor& vendor) {
             case 6: {
                 // Modify a product
                 int index;
-                string newName, newDescription;
                 
                 cout << "Enter the product index to modify: ";
                 cin >> index;
@@ -168,12 +167,7 @@ void displayVendorMenu(Vendor& vendor) {
                     break;
                 }
                 
-                cin.ignore();
-                cout << "Enter new product name: ";
-                getline(cin, newName);
-                
-                cout << "Enter new product description: ";
-                getline(cin, newDescription);
+                cin.ignore(); // Clear the input buffer for getline in modify method
                 
                 vendor.modifyProduct(index);
                 break;
@@ -242,33 +236,14 @@ int main() {
 
     cout << "\n Welcome to Amazon340:" << endl;
     
-    // Ask the vendor to enter their information
-    string username, email, password, bio, profilePicture;
-    
+    // We'll let createVendor() handle getting the vendor information
     cout << "Let's create your vendor profile:" << endl;
-    cout << "Enter username: ";
-    cin >> username;
-    
-    cout << "Enter email: ";
-    cin >> email;
-    
-    cout << "Enter password: ";
-    cin >> password;
-    
-    cin.ignore(); // Clear input buffer
-    
-    cout << "Enter short bio: ";
-    getline(cin, bio);
-    
-    cout << "Enter profile picture path: ";
-    getline(cin, profilePicture);
     
     // Call amazon340 createVendor function
     amazon340.createVendor();
     
-    // Since createVendor now prompts for input, we need to create the vendor manually here
-    Vendor manualVendor(username, email, password, bio, profilePicture);
-    // We'd need a setter in Amazon340 class to properly set this vendor, but for now we'll use what's returned
+    // We no longer need to manually create a vendor, as createVendor() now handles this internally
+    // Let's skip the user input since createVendor() will prompt for it
 
     // Retrieve the vendor 
     Vendor currentVendor = amazon340.getVendor();

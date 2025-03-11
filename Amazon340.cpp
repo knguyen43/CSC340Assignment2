@@ -20,13 +20,15 @@ void Amazon340::createVendor() {
     
     std::cout << "Creating a new vendor..." << std::endl;
     std::cout << "Enter username: ";
-    std::getline(std::cin, username);
+    std::cin >> username;
     
     std::cout << "Enter email: ";
-    std::getline(std::cin, email);
+    std::cin >> email;
     
     std::cout << "Enter password: ";
-    std::getline(std::cin, password);
+    std::cin >> password;
+    
+    std::cin.ignore(); // Clear the newline from the input buffer
     
     std::cout << "Enter bio: ";
     std::getline(std::cin, bio);

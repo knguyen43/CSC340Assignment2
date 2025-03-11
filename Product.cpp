@@ -59,26 +59,28 @@ void Product::display() const {
 // Modify product details
 bool Product::modify() {
     std::string newName, newDescription;
-    int newRating;
     
+    std::cout << "Current Name: " << name << std::endl;
     std::cout << "Enter new name (or press Enter to keep current): ";
     std::getline(std::cin, newName);
     if (!newName.empty()) {
         name = newName;
     }
     
+    std::cout << "Current Description: " << description << std::endl;
     std::cout << "Enter new description (or press Enter to keep current): ";
     std::getline(std::cin, newDescription);
     if (!newDescription.empty()) {
         description = newDescription;
     }
     
+    std::cout << "Current Rating: " << rating << std::endl;
     std::cout << "Enter new rating (0-5) (or press Enter to keep current): ";
     std::string ratingStr;
     std::getline(std::cin, ratingStr);
     if (!ratingStr.empty()) {
         try {
-            newRating = std::stoi(ratingStr);
+            int newRating = std::stoi(ratingStr);
             if (newRating >= 0 && newRating <= 5) {
                 rating = newRating;
             } else {
