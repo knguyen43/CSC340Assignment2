@@ -5,20 +5,43 @@
 #include "Vendor.h"
 #include <string>
 
-// This class represents the main application and contains a vendor
+/**
+ * @brief Main application class
+ *
+ * The Amazon340 class serves as the entry point,
+ * managing the vendor and providing the interface to create and retrieve
+ * vendor information.
+ */
 class Amazon340 {
 	private:
-		Vendor vendor;
+		Vendor vendor; ///< The vendor associated with this application instance
 
 	public:
-		// Constructors and destructor
+		/**
+		 * @brief Default constructor
+		 * @pre None
+		 * @post An Amazon340 object is created with a default vendor
+		 */
 		Amazon340();
+		
+		/**
+		 * @brief Destructor
+		 * @pre None
+		 * @post The Amazon340 object is properly destroyed
+		 */
 		~Amazon340();
 
-		// Create a vendor
+		/**
+		 * @brief Creates a new vendor with user input
+		 * @pre None
+		 * @post A new vendor is created and stored in the application
+		 */
 		void createVendor();
 
-		// Get the current vendor
+		/**
+		 * @brief Gets the current vendor
+		 * @return The current vendor object
+		 */
 		Vendor getVendor() const;
 };
 

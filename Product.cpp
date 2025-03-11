@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 
-// Product class implementations - aligned with UML
+// Product class implementations
 // Constructors
 Product::Product() : name(""), description(""), rating(0), soldCount(0) {}
 
@@ -100,7 +100,7 @@ bool Product::operator==(const Product& otherProduct) const {
     return name == otherProduct.name;
 }
 
-// Media class implementations - aligned with UML
+// Media class implementations
 // Constructors
 Media::Media() : Product(), type(""), targetAudience("") {}
 
@@ -173,7 +173,7 @@ bool Media::sell(int quantity) {
     return true;
 }
 
-// Good class implementations - aligned with UML (renamed from Goods to Good)
+// Good class implementations
 // Constructors
 Good::Good() : Product(), expirationDate(""), quantity(0) {}
 

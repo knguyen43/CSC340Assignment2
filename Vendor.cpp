@@ -57,7 +57,7 @@ void Vendor::setProfilePicture(const std::string& profilePicture) {
     this->profilePicture = profilePicture;
 }
 
-// Profile management - aligned with UML
+// Profile management
 void Vendor::displayProfile() const {
     std::cout << "==== Vendor Profile ====" << std::endl;
     std::cout << "Username: " << username << std::endl;
@@ -73,7 +73,7 @@ bool Vendor::modifyPassword(const std::string& newPassword) {
     return true;
 }
 
-// Product management - aligned with UML
+// Product management
 bool Vendor::createProduct(Product* product) {
     if (product != nullptr) {
         return products.add(product);

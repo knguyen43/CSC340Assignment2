@@ -13,7 +13,7 @@ Amazon340::~Amazon340() {
     std::cout << "Amazon340 application exiting." << std::endl;
 }
 
-// Create a vendor - aligned with UML
+// Create a vendor
 void Amazon340::createVendor() {
     // Create a new vendor with default or prompted information
     std::string username, email, password, bio, profilePicture;
