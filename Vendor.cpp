@@ -10,13 +10,30 @@ Vendor::Vendor(const std::string& username, const std::string& email,
                const std::string& profilePicture)
     : username(username), email(email), password(password), bio(bio), profilePicture(profilePicture) {}
 
-// Destructor - Clean up products
+// Copy constructor
+Vendor::Vendor(const Vendor& other)
+    : username(other.username), email(other.email), password(other.password),
+      bio(other.bio), profilePicture(other.profilePicture) {
+    // Copy products using LinkedBag assignment operator
+    products = other.products;
+}
+
+// Destructor - Smart pointers handle cleanup automatically
 Vendor::~Vendor() {
-    // Get all products and delete them
-    std::vector<Product*> productsList = products.toVector();
-    for (Product* product : productsList) {
-        delete product;
+    // No manual cleanup needed with smart pointers
+}
+
+// Assignment operator
+Vendor& Vendor::operator=(const Vendor& other) {
+    if (this != &other) {
+        username = other.username;
+        email = other.email;
+        password = other.password;
+        bio = other.bio;
+        profilePicture = other.profilePicture;
+        products = other.products;
     }
+    return *this;
 }
 
 // Getters
@@ -59,12 +76,7 @@ void Vendor::setProfilePicture(const std::string& profilePicture) {
 
 // Profile management
 void Vendor::displayProfile() const {
-    std::cout << "==== Vendor Profile ====" << std::endl;
-    std::cout << "Username: " << username << std::endl;
-    std::cout << "Email: " << email << std::endl;
-    std::cout << "Bio: " << bio << std::endl;
-    std::cout << "Profile Picture: " << profilePicture << std::endl;
-    std::cout << "Number of Products: " << products.getCurrentSize() << std::endl;
+    std::cout << *this;
 }
 
 bool Vendor::modifyPassword(const std::string& newPassword) {
@@ -74,8 +86,8 @@ bool Vendor::modifyPassword(const std::string& newPassword) {
 }
 
 // Product management
-bool Vendor::createProduct(Product* product) {
-    if (product != nullptr) {
+bool Vendor::createProduct(ProductPtr product) {
+    if (product) {
         return products.add(product);
     }
     return false;
@@ -87,16 +99,16 @@ void Vendor::displayProduct(int k) const {
         return;
     }
     
-    Node<Product*>* productNode = products.findKthItem(k);
+    Node<ProductPtr>* productNode = products.reversedFindKthItem(k);
     if (productNode != nullptr) {
-        Product* product = productNode->getItem();
+        ProductPtr product = productNode->getItem();
         std::cout << "Product #" << k << ":" << std::endl;
-        product->display();
+        std::cout << *product << std::endl;
     }
 }
 
 void Vendor::displayAllProducts() const {
-    std::vector<Product*> productsList = products.toVector();
+    std::vector<ProductPtr> productsList = products.toVector();
     
     if (productsList.empty()) {
         std::cout << "You don't have any products yet." << std::endl;
@@ -106,18 +118,18 @@ void Vendor::displayAllProducts() const {
     std::cout << "==== Your Products ====" << std::endl;
     for (int i = 0; i < productsList.size(); i++) {
         std::cout << "Product #" << (i + 1) << ":" << std::endl;
-        productsList[i]->display();
+        std::cout << *productsList[i] << std::endl;
         std::cout << "----------------------" << std::endl;
     }
 }
 
-Product* Vendor::getKthProduct(int k) const {
+ProductPtr Vendor::getKthProduct(int k) const {
     if (k <= 0 || k > products.getCurrentSize()) {
         std::cout << "Error: Invalid product index. You have " << products.getCurrentSize() << " products." << std::endl;
         return nullptr;
     }
     
-    Node<Product*>* productNode = products.findKthItem(k);
+    Node<ProductPtr>* productNode = products.reversedFindKthItem(k);
     if (productNode != nullptr) {
         return productNode->getItem();
     }
@@ -126,16 +138,16 @@ Product* Vendor::getKthProduct(int k) const {
 }
 
 bool Vendor::modifyProduct(int k) {
-    Product* product = getKthProduct(k);
-    if (product != nullptr) {
+    ProductPtr product = getKthProduct(k);
+    if (product) {
         return product->modify();
     }
     return false;
 }
 
 bool Vendor::sellProduct(int k, int quantity) {
-    Product* product = getKthProduct(k);
-    if (product != nullptr) {
+    ProductPtr product = getKthProduct(k);
+    if (product) {
         return product->sell(quantity);
     }
     return false;
@@ -148,18 +160,15 @@ bool Vendor::deleteProduct(int k) {
     }
     
     // Get the product to delete
-    Node<Product*>* productNode = products.findKthItem(k);
+    Node<ProductPtr>* productNode = products.reversedFindKthItem(k);
     if (productNode != nullptr) {
-        Product* product = productNode->getItem();
-        // Store a temporary copy of the product for comparison
-        Product* productCopy = product;
+        ProductPtr product = productNode->getItem();
         
         // Remove from bag
         bool removed = products.remove(product);
         
-        // If successfully removed, delete the product
+        // If successfully removed, smart pointer will handle cleanup
         if (removed) {
-            delete productCopy;
             std::cout << "Product deleted successfully!" << std::endl;
             return true;
         }
@@ -173,7 +182,42 @@ int Vendor::getProductCount() const {
     return products.getCurrentSize();
 }
 
+LinkedBag<ProductPtr>& Vendor::getProductsBag() {
+    return products;
+}
+
 // Operator overloading implementation
 bool Vendor::operator==(const Vendor& otherVendor) const {
     return (username == otherVendor.username) && (email == otherVendor.email);
+}
+
+// Input operator implementation
+std::istream& operator>>(std::istream& is, Vendor& vendor) {
+    std::cout << "Enter username: ";
+    std::getline(is, vendor.username);
+    
+    std::cout << "Enter email: ";
+    std::getline(is, vendor.email);
+    
+    std::cout << "Enter password: ";
+    std::getline(is, vendor.password);
+    
+    std::cout << "Enter bio: ";
+    std::getline(is, vendor.bio);
+    
+    std::cout << "Enter profile picture URL: ";
+    std::getline(is, vendor.profilePicture);
+    
+    return is;
+}
+
+// Output operator implementation
+std::ostream& operator<<(std::ostream& os, const Vendor& vendor) {
+    os << "==== Vendor Profile ====" << std::endl;
+    os << "Username: " << vendor.username << std::endl;
+    os << "Email: " << vendor.email << std::endl;
+    os << "Bio: " << vendor.bio << std::endl;
+    os << "Profile Picture: " << vendor.profilePicture << std::endl;
+    os << "Number of Products: " << vendor.products.getCurrentSize() << std::endl;
+    return os;
 }

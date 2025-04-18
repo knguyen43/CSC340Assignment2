@@ -1,8 +1,12 @@
 #include <iostream> 
 #include <string>
 #include <limits>  // For input handling
+#include <memory>  // For smart pointers
 #include "Amazon340.h"
 #include "Product.h"
+#include "Media.h"
+#include "Good.h"
+#include "LinkedBagDS/LinkedBag.h"
 
 using namespace std;
 
@@ -25,6 +29,7 @@ void displayVendorMenu(Vendor& vendor) {
         << "6. Modify Product\n"
         << "7. Sell Product\n"
         << "8. Delete Product\n"
+        << "9. Add Product at Position K\n"
         << "0. Logout\n"
         << "Choice: ";
         cin >> vendorChoice;
@@ -39,8 +44,8 @@ void displayVendorMenu(Vendor& vendor) {
 
         switch (vendorChoice) {
             case 1: {
-                // Display vendor's profile information
-                vendor.displayProfile();
+                // Display vendor's profile information using operator<<
+                cout << vendor << endl;
                 break;
             }
             case 2: {
@@ -57,7 +62,6 @@ void displayVendorMenu(Vendor& vendor) {
             case 3: {
                 // Create a new product
                 int productType;
-                string name, description;
                 
                 cout << "What type of product would you like to create?" << endl;
                 cout << "1. Media" << endl;
@@ -74,55 +78,31 @@ void displayVendorMenu(Vendor& vendor) {
                 }
                 
                 cin.ignore();
-                cout << "Enter product name: ";
-                getline(cin, name);
-                
-                cout << "Enter product description: ";
-                getline(cin, description);
                 
                 if (productType == 1) {
-                    // Media product
-                    string type, targetAudience;
+                    // Media product using operator>>
+                    Media media;
+                    cin >> media;
                     
-                    cout << "Enter media type (e.g., book, movie, music): ";
-                    getline(cin, type);
-                    
-                    cout << "Enter target audience: ";
-                    getline(cin, targetAudience);
-                    
-                    Media* newMedia = new Media(name, description, type, targetAudience);
+                    // Create a smart pointer
+                    MediaPtr newMedia = make_shared<Media>(media);
                     if (vendor.createProduct(newMedia)) {
                         cout << "Media product created successfully!" << endl;
                     } else {
                         cout << "Failed to create media product." << endl;
-                        delete newMedia; // Clean up if failed
                     }
                     
                 } else if (productType == 2) {
-                    // Goods product
-                    string expirationDate;
-                    int quantity;
+                    // Goods product using operator>>
+                    Good good;
+                    cin >> good;
                     
-                    cout << "Enter expiration date: ";
-                    getline(cin, expirationDate);
-                    
-                    cout << "Enter quantity: ";
-                    cin >> quantity;
-                    
-                    // Handle invalid input
-                    if (cin.fail()) {
-                        cin.clear();
-                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                        cout << "Invalid quantity. Using default of 0." << endl;
-                        quantity = 0;
-                    }
-                    
-                    Good* newGood = new Good(name, description, expirationDate, quantity);
+                    // Create a smart pointer
+                    GoodPtr newGood = make_shared<Good>(good);
                     if (vendor.createProduct(newGood)) {
                         cout << "Good product created successfully!" << endl;
                     } else {
                         cout << "Failed to create good product." << endl;
-                        delete newGood; // Clean up if failed
                     }
                     
                 } else {
@@ -218,6 +198,65 @@ void displayVendorMenu(Vendor& vendor) {
                 vendor.deleteProduct(index);
                 break;
             }
+            case 9: {
+                // Add product at position K
+                int productType, k;
+                
+                cout << "Enter the position (K) to add the product at: ";
+                cin >> k;
+                
+                // Handle invalid input
+                if (cin.fail()) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid input. Please enter a number." << endl;
+                    break;
+                }
+                
+                cout << "What type of product would you like to create?" << endl;
+                cout << "1. Media" << endl;
+                cout << "2. Goods" << endl;
+                cout << "Enter choice: ";
+                cin >> productType;
+                
+                // Handle invalid input
+                if (cin.fail()) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid input. Please try again." << endl;
+                    break;
+                }
+                
+                cin.ignore();
+                
+                ProductPtr newProduct = nullptr;
+                
+                if (productType == 1) {
+                    // Media product
+                    Media media;
+                    cin >> media;
+                    newProduct = make_shared<Media>(media);
+                    
+                } else if (productType == 2) {
+                    // Goods product
+                    Good good;
+                    cin >> good;
+                    newProduct = make_shared<Good>(good);
+                    
+                } else {
+                    cout << "Invalid product type." << endl;
+                    break;
+                }
+                
+                // Add the product at position K
+                LinkedBag<ProductPtr>& productsBag = vendor.getProductsBag();
+                if (productsBag.appendK(newProduct, k)) {
+                    cout << "Product successfully added at position " << k << "!" << endl;
+                } else {
+                    cout << "Failed to add product at position " << k << "." << endl;
+                }
+                break;
+            }
             case 0: {
                 cout << "Logging you out." << endl;
                 break;
@@ -234,7 +273,8 @@ int main() {
     // Instantiating the program using the default constructor
     Amazon340 amazon340; 
 
-    cout << "\n Welcome to Amazon340:" << endl;
+    // Display welcome message using operator<<
+    cout << amazon340 << endl;
     
     // We'll let createVendor() handle getting the vendor information
     cout << "Let's create your vendor profile:" << endl;
@@ -242,9 +282,6 @@ int main() {
     // Call amazon340 createVendor function
     amazon340.createVendor();
     
-    // We no longer need to manually create a vendor, as createVendor() now handles this internally
-    // Let's skip the user input since createVendor() will prompt for it
-
     // Retrieve the vendor 
     Vendor currentVendor = amazon340.getVendor();
 

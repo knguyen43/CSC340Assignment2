@@ -8,9 +8,22 @@ Amazon340::Amazon340() {
     std::cout << "Amazon340 application started." << std::endl;
 }
 
+// Copy constructor
+Amazon340::Amazon340(const Amazon340& other) : vendor(other.vendor) {
+    std::cout << "Amazon340 copied." << std::endl;
+}
+
 // Destructor
 Amazon340::~Amazon340() {
     std::cout << "Amazon340 application exiting." << std::endl;
+}
+
+// Assignment operator
+Amazon340& Amazon340::operator=(const Amazon340& other) {
+    if (this != &other) {
+        vendor = other.vendor;
+    }
+    return *this;
 }
 
 // Create a vendor
@@ -43,4 +56,10 @@ void Amazon340::createVendor() {
 // Get the current vendor
 Vendor Amazon340::getVendor() const {
     return vendor;
+}
+
+// Output operator implementation
+std::ostream& operator<<(std::ostream& os, const Amazon340& amazon) {
+    os << "Welcome to Amazon340!";
+    return os;
 }

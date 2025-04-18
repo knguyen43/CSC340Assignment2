@@ -1,8 +1,8 @@
 #include "Product.h"
+#include "Media.h"
+#include "Good.h"
 #include <iostream>
 #include <string>
-#include <cstdlib>
-#include <ctime>
 
 // Product class implementations
 // Constructors
@@ -11,8 +11,23 @@ Product::Product() : name(""), description(""), rating(0), soldCount(0) {}
 Product::Product(const std::string& name, const std::string& description, int rating, int soldCount)
     : name(name), description(description), rating(rating), soldCount(soldCount) {}
 
+// Copy constructor
+Product::Product(const Product& other)
+    : name(other.name), description(other.description), rating(other.rating), soldCount(other.soldCount) {}
+
 // Destructor
 Product::~Product() {}
+
+// Assignment operator
+Product& Product::operator=(const Product& other) {
+    if (this != &other) {
+        name = other.name;
+        description = other.description;
+        rating = other.rating;
+        soldCount = other.soldCount;
+    }
+    return *this;
+}
 
 // Getters
 std::string Product::getName() const {
@@ -100,159 +115,35 @@ bool Product::operator==(const Product& otherProduct) const {
     return name == otherProduct.name;
 }
 
-// Media class implementations
-// Constructors
-Media::Media() : Product(), type(""), targetAudience("") {}
-
-Media::Media(const std::string& name, const std::string& description, 
-             const std::string& type, const std::string& targetAudience,
-             int rating, int soldCount)
-    : Product(name, description, rating, soldCount), type(type), targetAudience(targetAudience) {}
-
-// Getters
-std::string Media::getType() const {
-    return type;
-}
-
-std::string Media::getTargetAudience() const {
-    return targetAudience;
-}
-
-// Setters
-void Media::setType(const std::string& type) {
-    this->type = type;
-}
-
-void Media::setTargetAudience(const std::string& targetAudience) {
-    this->targetAudience = targetAudience;
-}
-
-// Override display method
-void Media::display() const {
-    Product::display();
-    std::cout << "Type: " << type << std::endl;
-    std::cout << "Target Audience: " << targetAudience << std::endl;
-}
-
-// Override modify method
-bool Media::modify() {
-    // First modify base class attributes
-    Product::modify();
+// Input operator implementation
+std::istream& operator>>(std::istream& is, Product& product) {
+    std::cout << "Enter product name: ";
+    std::getline(is, product.name);
     
-    // Then modify media-specific attributes
-    std::string newType, newTargetAudience;
+    std::cout << "Enter product description: ";
+    std::getline(is, product.description);
     
-    std::cout << "Enter new type (or press Enter to keep current): ";
-    std::getline(std::cin, newType);
-    if (!newType.empty()) {
-        type = newType;
-    }
-    
-    std::cout << "Enter new target audience (or press Enter to keep current): ";
-    std::getline(std::cin, newTargetAudience);
-    if (!newTargetAudience.empty()) {
-        targetAudience = newTargetAudience;
-    }
-    
-    return true;
-}
-
-// Override sell method
-bool Media::sell(int quantity) {
-    // Generate a random access code (simple implementation)
-    srand(static_cast<unsigned int>(time(nullptr)));
-    int accessCode = rand() % 900000 + 100000; // 6-digit code
-    
-    // Increment sold count by quantity
-    soldCount += quantity;
-    
-    // Display access code
-    std::cout << "Product sold! Your one-time access code is: " << accessCode << std::endl;
-    std::cout << "Quantity sold: " << quantity << std::endl;
-    
-    return true;
-}
-
-// Good class implementations
-// Constructors
-Good::Good() : Product(), expirationDate(""), quantity(0) {}
-
-Good::Good(const std::string& name, const std::string& description, 
-         const std::string& expirationDate, int quantity,
-         int rating, int soldCount)
-    : Product(name, description, rating, soldCount), expirationDate(expirationDate), quantity(quantity) {}
-
-// Getters
-std::string Good::getExpirationDate() const {
-    return expirationDate;
-}
-
-int Good::getQuantity() const {
-    return quantity;
-}
-
-// Setters
-void Good::setExpirationDate(const std::string& expirationDate) {
-    this->expirationDate = expirationDate;
-}
-
-void Good::setQuantity(int quantity) {
-    this->quantity = quantity;
-}
-
-// Override display method
-void Good::display() const {
-    Product::display();
-    std::cout << "Expiration Date: " << expirationDate << std::endl;
-    std::cout << "Quantity Available: " << quantity << std::endl;
-}
-
-// Override modify method
-bool Good::modify() {
-    // First modify base class attributes
-    Product::modify();
-    
-    // Then modify goods-specific attributes
-    std::string newExpirationDate, quantityStr;
-    
-    std::cout << "Enter new expiration date (or press Enter to keep current): ";
-    std::getline(std::cin, newExpirationDate);
-    if (!newExpirationDate.empty()) {
-        expirationDate = newExpirationDate;
-    }
-    
-    std::cout << "Enter new quantity (or press Enter to keep current): ";
-    std::getline(std::cin, quantityStr);
-    if (!quantityStr.empty()) {
-        try {
-            int newQuantity = std::stoi(quantityStr);
-            if (newQuantity >= 0) {
-                quantity = newQuantity;
-            } else {
-                std::cout << "Invalid quantity. Using current value." << std::endl;
-            }
-        } catch (...) {
-            std::cout << "Invalid input. Using current value." << std::endl;
+    std::cout << "Enter product rating (0-5): ";
+    std::string ratingStr;
+    std::getline(is, ratingStr);
+    try {
+        int newRating = std::stoi(ratingStr);
+        if (newRating >= 0 && newRating <= 5) {
+            product.rating = newRating;
         }
+    } catch (...) {
+        // Keep default rating if invalid input
     }
     
-    return true;
+    return is;
 }
 
-// Override sell method - checks quantity
-bool Good::sell(int sellQuantity) {
-    if (quantity >= sellQuantity) {
-        // Decrement quantity
-        quantity -= sellQuantity;
-        // Increment sold count
-        soldCount += sellQuantity;
-        
-        std::cout << "Product sold! Quantity sold: " << sellQuantity << std::endl;
-        std::cout << "Remaining quantity: " << quantity << std::endl;
-        return true;
-    } else {
-        std::cout << "Sorry, not enough inventory. Available quantity: " << quantity << std::endl;
-        return false;
-    }
+// Output operator implementation
+std::ostream& operator<<(std::ostream& os, const Product& product) {
+    os << "Product Name: " << product.name << "\n"
+       << "Description: " << product.description << "\n"
+       << "Rating: " << product.rating << "\n"
+       << "Sold Count: " << product.soldCount;
+    return os;
 }
 

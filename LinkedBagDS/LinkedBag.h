@@ -26,10 +26,11 @@ public:
 	LinkedBag();
 	LinkedBag(const LinkedBag<ItemType>& aBag); // Copy constructor
 	virtual ~LinkedBag();						// Destructor should be virtual
+	LinkedBag<ItemType>& operator=(const LinkedBag<ItemType>& aBag); // Assignment operator
 
 	// Assignment 2 functions -------------------------------------------
 	bool appendK(const ItemType& newEntry, const int& k);
-	Node<ItemType>* findKthItem(const int& indexK) const;
+	Node<ItemType>* reversedFindKthItem(const int& indexK) const;
 	// ------------------------------------------------------------------
 	
 	int getCurrentSize() const;
@@ -45,5 +46,5 @@ public:
 
 }; // end LinkedBag
 
-#include "LinkedBag.cpp"
+#include "LinkedBag.cpp.h"
 #endif

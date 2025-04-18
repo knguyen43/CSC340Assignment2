@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <memory>
 #include "Product.h"
 #include "LinkedBagDS/LinkedBag.h"
 
@@ -19,7 +20,7 @@ private:
     std::string password;        ///< Vendor's password
     std::string bio;             ///< Vendor's biographical information
     std::string profilePicture;  ///< Path/URL to vendor's profile picture
-    LinkedBag<Product*> products; ///< Collection of products the vendor sells
+    LinkedBag<ProductPtr> products; ///< Collection of products the vendor sells using smart pointers
 
 public:
     /**
@@ -44,11 +45,26 @@ public:
            const std::string& profilePicture);
     
     /**
+     * @brief Copy constructor
+     * @param other The Vendor object to copy from
+     * @pre None
+     * @post A new Vendor object is created as a copy of other
+     */
+    Vendor(const Vendor& other);
+    
+    /**
      * @brief Destructor
      * @pre None
-     * @post The Vendor object is destroyed and all dynamically allocated products are deleted
+     * @post The Vendor object is destroyed (smart pointers handle memory cleanup)
      */
     ~Vendor();
+    
+    /**
+     * @brief Assignment operator
+     * @param other The Vendor object to assign from
+     * @return Reference to this object after assignment
+     */
+    Vendor& operator=(const Vendor& other);
     
     /**
      * @brief Gets the vendor's username
@@ -132,12 +148,12 @@ public:
     
     /**
      * @brief Adds a new product to the vendor's catalog
-     * @param product Pointer to the product to add
-     * @pre product is a valid pointer to a Product object
+     * @param product Smart pointer to the product to add
+     * @pre product is a valid smart pointer to a Product object
      * @post The product is added to the vendor's catalog if creation is successful
      * @return True if the product was successfully added, false otherwise
      */
-    bool createProduct(Product* product);
+    bool createProduct(ProductPtr product);
     
     /**
      * @brief Displays information for a specific product
@@ -183,12 +199,12 @@ public:
     bool deleteProduct(int k);
     
     /**
-     * @brief Gets a pointer to the kth product
+     * @brief Gets a smart pointer to the kth product
      * @param k The index of the product to retrieve (1-based)
      * @pre None
-     * @return Pointer to the product if found, nullptr otherwise
+     * @return Smart pointer to the product if found, nullptr otherwise
      */
-    Product* getKthProduct(int k) const;
+    ProductPtr getKthProduct(int k) const;
     
     /**
      * @brief Gets the total number of products in the vendor's catalog
@@ -198,11 +214,50 @@ public:
     int getProductCount() const;
     
     /**
+     * @brief Gets direct access to the products bag
+     * @pre None
+     * @return Reference to the LinkedBag containing the vendor's products
+     */
+    LinkedBag<ProductPtr>& getProductsBag();
+    
+    /**
      * @brief Equality comparison operator
      * @param otherVendor The vendor to compare with
      * @return True if vendors have the same username and email, false otherwise
      */
     bool operator==(const Vendor& otherVendor) const;
+    
+    /**
+     * @brief Friend function for input operator overloading
+     * @param is The input stream
+     * @param vendor The Vendor object to input data into
+     * @return Reference to the input stream
+     */
+    friend std::istream& operator>>(std::istream& is, Vendor& vendor);
+    
+    /**
+     * @brief Friend function for output operator overloading
+     * @param os The output stream
+     * @param vendor The Vendor object to output
+     * @return Reference to the output stream
+     */
+    friend std::ostream& operator<<(std::ostream& os, const Vendor& vendor);
 };
+
+/**
+ * @brief Input operator for Vendor
+ * @param is The input stream
+ * @param vendor The Vendor object to input data into
+ * @return Reference to the input stream
+ */
+std::istream& operator>>(std::istream& is, Vendor& vendor);
+
+/**
+ * @brief Output operator for Vendor
+ * @param os The output stream
+ * @param vendor The Vendor object to output
+ * @return Reference to the output stream
+ */
+std::ostream& operator<<(std::ostream& os, const Vendor& vendor);
 
 #endif // VENDOR_H
