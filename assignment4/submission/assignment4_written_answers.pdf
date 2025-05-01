@@ -1,0 +1,225 @@
+CSC340 - ASSIGNMENT 4 - WRITTEN ANSWERS
+Student Name: Khang Nguyen and Jason Anousaya
+
+===============================================================================
+PART 1 - RECURSIVE FUNCTION
+===============================================================================
+
+------------------------------------------------
+PART 1 - QUESTION 2: RECURSIVE CALL TREE FOR J(6)
+------------------------------------------------
+
+Below is the call tree for seriesRecursive(6):
+
+seriesRecursive(6)
+├── seriesRecursive(5)
+│   ├── seriesRecursive(4)
+│   │   ├── seriesRecursive(3)
+│   │   │   ├── seriesRecursive(2) = 1
+│   │   │   ├── seriesRecursive(1) = 1
+│   │   │   └── seriesRecursive(0) = 0
+│   │   │   Result: 1 + 2*1 + 4*0 = 3
+│   │   ├── seriesRecursive(2) = 1
+│   │   └── seriesRecursive(1) = 1
+│   │   Result: 3 + 2*1 + 4*1 = 9
+│   ├── seriesRecursive(3)
+│   │   ├── seriesRecursive(2) = 1
+│   │   ├── seriesRecursive(1) = 1
+│   │   └── seriesRecursive(0) = 0
+│   │   Result: 1 + 2*1 + 4*0 = 3
+│   └── seriesRecursive(2) = 1
+│   Result: 9 + 2*3 + 4*1 = 19
+├── seriesRecursive(4)
+│   ├── seriesRecursive(3)
+│   │   ├── seriesRecursive(2) = 1
+│   │   ├── seriesRecursive(1) = 1
+│   │   └── seriesRecursive(0) = 0
+│   │   Result: 1 + 2*1 + 4*0 = 3
+│   ├── seriesRecursive(2) = 1
+│   └── seriesRecursive(1) = 1
+│   Result: 3 + 2*1 + 4*1 = 9
+└── seriesRecursive(3)
+    ├── seriesRecursive(2) = 1
+    ├── seriesRecursive(1) = 1
+    └── seriesRecursive(0) = 0
+    Result: 1 + 2*1 + 4*0 = 3
+
+Final Result for seriesRecursive(6) = 19 + 2*9 + 4*3 = 19 + 18 + 12 = 49
+
+------------------------------------------------
+PART 1 - QUESTION 3: MEMOIZATION
+------------------------------------------------
+
+(a) Definition of Memoization:
+
+Memoization is an optimization technique that speeds up recursive algorithms by storing the results of expensive function calls and returning the cached result when the same inputs occur again. It transforms an exponential time algorithm into a linear one by avoiding redundant calculations.
+
+For example, in the seriesRecursive function, calculating J(6) requires calculating J(5), J(4), and J(3). But calculating J(5) also requires calculating J(4) and J(3) again. With memoization, we would store the results of J(4) and J(3) the first time they're calculated and reuse them instead of recalculating.
+
+Source: Source: GeeksforGeeks (https://www.geeksforgeeks.org/memoization/)
+
+(b) Strategy to Implement Memoization for seriesRecursive:
+
+• Create a storage structure (like an array or map) to cache previously computed values
+• Modify the recursive function to first check if the value for n is already in the cache
+• If found in cache, return the cached value immediately
+• If not found, compute the value recursively, store it in the cache, and then return it
+• Initialize base cases (J(0)=0, J(1)=1, J(2)=1) in the cache at the start
+• The function should prioritize cache lookups before performing recursive calculations
+• For larger values of n, this would dramatically reduce the number of function calls
+• The time complexity would improve from O(3^n) to O(n)
+• The space complexity would be O(n) for storing at most n distinct values
+
+===============================================================================
+PART 2 - SORTING ALGORITHMS
+===============================================================================
+
+Random Array: [64, 25, 12, 22, 11, 90, 33, 7]
+
+--------------------------------------------------------
+BASIC SORTING ALGORITHM: SELECTION SORT
+--------------------------------------------------------
+
+The Selection Sort algorithm sorts an array by repeatedly finding the minimum element from the unsorted part and putting it at the beginning.
+
+Initial Array: [64, 25, 12, 22, 11, 90, 33, 7]
+
+Iteration 1:
+- Find minimum in positions 0-7: 7 at position 7
+- Swap 64 and 7
+Array after iteration: [7, 25, 12, 22, 11, 90, 33, 64]
+
+Iteration 2:
+- Find minimum in positions 1-7: 11 at position 4
+- Swap 25 and 11
+Array after iteration: [7, 11, 12, 22, 25, 90, 33, 64]
+
+Iteration 3:
+- Find minimum in positions 2-7: 12 at position 2
+- Already in correct position, no swap needed
+Array after iteration: [7, 11, 12, 22, 25, 90, 33, 64]
+
+Iteration 4:
+- Find minimum in positions 3-7: 22 at position 3
+- Already in correct position, no swap needed
+Array after iteration: [7, 11, 12, 22, 25, 90, 33, 64]
+
+Iteration 5:
+- Find minimum in positions 4-7: 25 at position 4
+- Already in correct position, no swap needed
+Array after iteration: [7, 11, 12, 22, 25, 90, 33, 64]
+
+Iteration 6:
+- Find minimum in positions 5-7: 33 at position 6
+- Swap 90 and 33
+Array after iteration: [7, 11, 12, 22, 25, 33, 90, 64]
+
+Iteration 7:
+- Find minimum in positions 6-7: 64 at position 7
+- Swap 90 and 64
+Array after iteration: [7, 11, 12, 22, 25, 33, 64, 90]
+
+Final Sorted Array: [7, 11, 12, 22, 25, 33, 64, 90]
+
+--------------------------------------------------------
+FAST SORTING ALGORITHM: MERGE SORT
+--------------------------------------------------------
+
+The Merge Sort algorithm is a divide and conquer algorithm that divides the input array into two halves, recursively sorts them, and then merges the sorted halves.
+
+Initial Array: [64, 25, 12, 22, 11, 90, 33, 7]
+
+Divide Step 1:
+- Divide into: [64, 25, 12, 22] and [11, 90, 33, 7]
+
+Divide Step 2:
+- Divide [64, 25, 12, 22] into: [64, 25] and [12, 22]
+- Divide [11, 90, 33, 7] into: [11, 90] and [33, 7]
+
+Divide Step 3:
+- Divide [64, 25] into: [64] and [25]
+- Divide [12, 22] into: [12] and [22]
+- Divide [11, 90] into: [11] and [90]
+- Divide [33, 7] into: [33] and [7]
+
+Merge Step 1:
+- Merge [64] and [25] into [25, 64]
+- Merge [12] and [22] into [12, 22]
+- Merge [11] and [90] into [11, 90]
+- Merge [33] and [7] into [7, 33]
+
+Merge Step 2:
+- Merge [25, 64] and [12, 22] into [12, 22, 25, 64]
+- Merge [11, 90] and [7, 33] into [7, 11, 33, 90]
+
+Merge Step 3:
+- Merge [12, 22, 25, 64] and [7, 11, 33, 90] into [7, 11, 12, 22, 25, 33, 64, 90]
+
+Final Sorted Array: [7, 11, 12, 22, 25, 33, 64, 90]
+
+===============================================================================
+PART 3 - RECURSIVE SORTING IN LINKEDBAG
+===============================================================================
+
+------------------------------------------------
+PART 3 - QUESTION 3: MERGE SORT IMPLEMENTATION
+------------------------------------------------
+
+(a) How GenAI merge sort code was checked for correctness:
+
+The merge sort algorithm generated by AI was verified for correctness through several validation steps:
+
+1. Code Review: The implementation was thoroughly reviewed to ensure it followed the standard merge sort algorithm with the three key steps:
+   - Dividing the list into two halves (using the slow/fast pointer technique to find the middle)
+   - Recursively sorting each half
+   - Merging the sorted halves back together
+
+2. Test Cases: The implementation was tested with various input lists including:
+   - Empty list and single-node list (edge cases)
+   - Already sorted list (best case)
+   - Reverse-sorted list (worst case)
+   - List with duplicate values
+   - The specific test case provided in the assignment [35, 62, 15, 24, 40, 7]
+
+3. Output Verification: For each test case, I verified that:
+   - The output was correctly sorted in ascending order
+   - The structure of the linked list remained intact
+   - No nodes were lost during the sorting process
+   - The algorithm worked with the input data types (integers)
+
+4. Time/Space Complexity Analysis: I confirmed the implementation maintained the expected O(n log n) time complexity characteristic of merge sort.
+
+5. Direct Execution: The code was compiled and executed independently in mergeSortGenAI.cpp to confirm its standalone functionality before integration.
+
+(b) Changes made to adapt code to LinkedBag:
+
+Adapting the merge sort algorithm from mergeSortGenAI.cpp to the LinkedBag class required several modifications:
+
+1. Interface Adaptation:
+   - Changed the method signatures to match LinkedBag's design
+   - Added helper methods to the LinkedBag class (mergeSortHelper, findMiddle, merge)
+   - Modified the sort() method to call mergeSort() when method=0
+
+2. Data Structure Differences:
+   - Updated code to work with Node<ItemType> instead of ListNode
+   - Modified accessor methods to use getItem()/setItem() instead of direct val access
+   - Changed pointer navigation to use getNext()/setNext() instead of direct next access
+
+3. Memory Management:
+   - Added proper memory management for the dummy node in the merge function
+   - Ensured no memory leaks during the sorting process
+
+4. Type Handling:
+   - Modified the code to work with generic types using templates
+   - Replaced explicit int comparisons with generic comparisons for ItemType
+
+5. Integration with Existing Code:
+   - Preserved the existing LinkedBag interface
+   - Maintained headPtr as the class member instead of returning a new head
+   - Ensured compatibility with all existing LinkedBag methods
+
+6. Error Handling:
+   - Added checks for empty bags and single-element bags
+   - Made sure proper null checks were in place throughout the algorithm
+
+These adaptations ensured the merge sort algorithm worked correctly within the LinkedBag class structure while maintaining its efficiency and correctness.

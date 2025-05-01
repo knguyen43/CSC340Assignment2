@@ -1,0 +1,45 @@
+
+Assignment 4 Grading Rubric
+
+Part 1-1:
+- Programming Style: Meaningful Variable names, Proper indentation, and Consistent style (4 pts)
+- Documentation: Comments specify objective and parameters of a function and tasks of important lines of code (4 pts)
+- Program Correctness:
+    - Main program runs on terminal (2 pts)
+    - All test cases execute properly with correct output (no hard-coding allowed) (15 pts)
+
+Part 1-2:
+- Call tree includes all function calls as a tree structure, indicating the value of n (10 pts)
+
+Part 1-3(a):
+- Memoization clearly defined (3.5 pts) and sources cited (1.5 pts) (5 pts)
+
+Part 1-3(b):
+- Bullet points describe steps to incorporate memoization into the program. Description matches the submission (10 pts)
+
+Part 2:
+- Basic Sorting Algorithm 1 (10 pts)
+- Faster Sorting Algorithm (10 pts)
+- Extra Credit: Other Sorting Algorithm (5 pts)
+
+Part 3-1:
+- Submission includes mergeSortGenAI.cpp. The implementation is not generated for LinkedBag and is only suitable for linked list (10 pts)
+
+Part 3-2:
+- Programming Style: Meaningful Variable names, Proper indentation, and Consistent style (4 pts)
+- Documentation: Comments specify objective and parameters of a function and tasks of important lines of code (4 pts)
+- Program Correctness:
+    - Main program runs on terminal (2 pts)
+    - All test cases execute properly with correct output (no hard-coding allowed) (15 pts)
+
+Part 3-3(a):
+- GenAI code properly and thoroughly tested for correctness before being used in Part 3-2 (10 pts)
+
+Part 3-3(b):
+- Clear description of changes made matching code submission (5 pts)
+
+Extra Credit:
+- Programming Style and Documentation (2 pts)
+- Program Correctness: All test cases execute properly with correct output (8 pts)
+
+Total Points: 120 (+ 15 extra credit)

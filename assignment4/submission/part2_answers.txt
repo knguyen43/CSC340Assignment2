@@ -1,0 +1,83 @@
+Student Name: [Your Name Here]
+CSC340 - Assignment 4 - Part 2
+
+PART 2 - MANUAL SORTING WALKTHROUGH
+
+Random Array: [64, 25, 12, 22, 11, 90, 33, 7]
+
+BASIC SORTING ALGORITHM: SELECTION SORT
+
+The Selection Sort algorithm sorts an array by repeatedly finding the minimum element from the unsorted part and putting it at the beginning.
+
+Initial Array: [64, 25, 12, 22, 11, 90, 33, 7]
+
+Iteration 1:
+- Find minimum in positions 0-7: 7 at position 7
+- Swap 64 and 7
+Array after iteration: [7, 25, 12, 22, 11, 90, 33, 64]
+
+Iteration 2:
+- Find minimum in positions 1-7: 11 at position 4
+- Swap 25 and 11
+Array after iteration: [7, 11, 12, 22, 25, 90, 33, 64]
+
+Iteration 3:
+- Find minimum in positions 2-7: 12 at position 2
+- Already in correct position, no swap needed
+Array after iteration: [7, 11, 12, 22, 25, 90, 33, 64]
+
+Iteration 4:
+- Find minimum in positions 3-7: 22 at position 3
+- Already in correct position, no swap needed
+Array after iteration: [7, 11, 12, 22, 25, 90, 33, 64]
+
+Iteration 5:
+- Find minimum in positions 4-7: 25 at position 4
+- Already in correct position, no swap needed
+Array after iteration: [7, 11, 12, 22, 25, 90, 33, 64]
+
+Iteration 6:
+- Find minimum in positions 5-7: 33 at position 6
+- Swap 90 and 33
+Array after iteration: [7, 11, 12, 22, 25, 33, 90, 64]
+
+Iteration 7:
+- Find minimum in positions 6-7: 64 at position 7
+- Swap 90 and 64
+Array after iteration: [7, 11, 12, 22, 25, 33, 64, 90]
+
+Final Sorted Array: [7, 11, 12, 22, 25, 33, 64, 90]
+
+FAST SORTING ALGORITHM: MERGE SORT
+
+The Merge Sort algorithm is a divide and conquer algorithm that divides the input array into two halves, recursively sorts them, and then merges the sorted halves.
+
+Initial Array: [64, 25, 12, 22, 11, 90, 33, 7]
+
+Divide Step 1:
+- Divide into: [64, 25, 12, 22] and [11, 90, 33, 7]
+
+Divide Step 2:
+- Divide [64, 25, 12, 22] into: [64, 25] and [12, 22]
+- Divide [11, 90, 33, 7] into: [11, 90] and [33, 7]
+
+Divide Step 3:
+- Divide [64, 25] into: [64] and [25]
+- Divide [12, 22] into: [12] and [22]
+- Divide [11, 90] into: [11] and [90]
+- Divide [33, 7] into: [33] and [7]
+
+Merge Step 1:
+- Merge [64] and [25] into [25, 64]
+- Merge [12] and [22] into [12, 22]
+- Merge [11] and [90] into [11, 90]
+- Merge [33] and [7] into [7, 33]
+
+Merge Step 2:
+- Merge [25, 64] and [12, 22] into [12, 22, 25, 64]
+- Merge [11, 90] and [7, 33] into [7, 11, 33, 90]
+
+Merge Step 3:
+- Merge [12, 22, 25, 64] and [7, 11, 33, 90] into [7, 11, 12, 22, 25, 33, 64, 90]
+
+Final Sorted Array: [7, 11, 12, 22, 25, 33, 64, 90]

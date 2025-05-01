@@ -1,0 +1,94 @@
+**CSC340 Assignment 4 Completion Instructions for AI Agent**
+
+# General Submission Instructions
+- **Deliverables:**
+  - Submit a ZIP file: `firstname1_lastname1_firstname2_lastname2_asmt4.zip`
+    - Contains two folders: `Part1/` and `Part3/`
+  - Submit a separate PDF with written answers (Part 1 Q2 & Q3, Part 2, Part 3 Q3)
+- **Coding Rules:**
+  - Main functions must not be modified.
+  - Code must compile and run without errors.
+- **Academic Integrity:**
+  - Code must be understandable and reproducible by submitters.
+
+# Part 1: Recursive Function
+
+## Task 1: Implement Recursive Function
+- File: `Part1/seriesRecursive.cpp`
+- Implement function: `long long seriesRecursive(int n)`
+- Function behavior:
+  - Base cases:
+    - `J(0) = 0`
+    - `J(1) = 1`
+    - `J(2) = 1`
+  - Recursive case:
+    - `J(n) = J(n-1) + 2 * J(n-2) + 4 * J(n-3)` for `n > 2`
+
+## Task 2: Draw Call Tree
+- Draw manual call tree for `seriesRecursive(6)`.
+- Submit drawing in the separate PDF file.
+
+## Task 3: Memoization Questions
+- (a) Define memoization in own words, cite a source.
+- (b) Bullet-point strategy to implement memoization.
+- Submit answers in the separate PDF file.
+
+# Part 2: Sorting Algorithms
+
+## Task 1: Manual Sorting Walkthroughs
+- Pick 8 random integers.
+- Perform sorting manually and track array after each iteration.
+- Choose algorithms:
+  - One basic: Selection Sort / Bubble Sort / Insertion Sort
+  - One fast: Merge Sort / Quick Sort
+- Submit iteration tracking in the separate PDF file.
+
+## Task 2: Extra Credit (Optional)
+- Optionally implement Heap Sort or Shell Sort.
+- Submit iteration tracking in the same PDF if completed.
+
+# Part 3: Recursive Sorting in LinkedBag
+
+## Task 1: Generate Merge Sort Code
+- File: `Part3/mergeSortGenAI.cpp`
+- Use GenAI to generate merge sort for a singly linked list.
+- Follow format similar to provided `quickSortGenAI.cpp`.
+
+## Task 2: Implement Merge Sort in LinkedBag
+- Modify `LinkedBag.h` and `LinkedBag.cpp`:
+  - Update `mergeSort()` prototype and implementation.
+  - Sort the bag elements using merge sort.
+- Do not modify `linkedBagSortingMain.cpp`.
+- Ensure `lBag.sort(0)` calls the new `mergeSort()`.
+
+## Task 3: Discussion Questions
+- (a) How GenAI merge sort code was checked for correctness.
+- (b) Changes made to adapt code to LinkedBag.
+- Submit answers in the separate PDF file.
+
+## Task 4: Extra Credit (Optional)
+- Implement Quick Sort inside `LinkedBag`:
+  - Modify `LinkedBag.h` and `LinkedBag.cpp`.
+  - Support `lBag.sort(1)` for quick sort.
+
+# Required Directory Structure
+```
+firstname1_lastname1_firstname2_lastname2_asmt4.zip
+├── Part1/
+│   └── seriesRecursive.cpp
+├── Part3/
+    ├── LinkedBag.h
+    ├── LinkedBag.cpp
+    ├── Node.h
+    ├── Node.cpp
+    ├── linkedBagSortingMain.cpp
+    ├── mergeSortGenAI.cpp
+    └── (optional) quickSortGenAI.cpp
+```
+
+# Required Separate PDF File
+- Contains:
+  - Part 1 Q2 (call tree drawing) and Q3 (memoization questions)
+  - Part 2 (manual sorting iterations)
+  - Part 3 Q3 (discussion answers)
+- Include full names at the top of the document.
